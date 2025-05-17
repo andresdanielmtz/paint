@@ -89,3 +89,11 @@ nb-configuration.xml
 ##############################
 *.log
 .vscode
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+# Package Files #
+*.zip
+*.tar.gz
+*.rar
