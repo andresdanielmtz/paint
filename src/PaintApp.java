@@ -26,10 +26,11 @@ public class PaintApp {
         JPanel toolPanel = new JPanel();
         ButtonGroup toolGroup = new ButtonGroup();
 
+        // TODO: Add different, required buttons. 
         JToggleButton pencilBtn = new JToggleButton("Pencil", true);
         pencilBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.PENCIL));
         toolGroup.add(pencilBtn);
-        toolGroup.add(pencilBtn);
+        toolPanel.add(pencilBtn);
 
         for (Color color : COLOR_PALETTE) {
             JPanel colorPanel = new JPanel();
