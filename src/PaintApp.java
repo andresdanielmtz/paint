@@ -13,6 +13,16 @@ public class PaintApp {
             Color.BLACK,
             Color.DARK_GRAY,
             Color.GRAY,
+            Color.GREEN,
+            Color.MAGENTA,
+            Color.PINK,
+            Color.RED,
+            Color.BLUE,
+            Color.CYAN,
+            Color.YELLOW,
+            Color.GRAY,
+            Color.MAGENTA,
+            Color.PINK
     };
 
     public PaintApp() {
@@ -26,7 +36,7 @@ public class PaintApp {
         JPanel toolPanel = new JPanel();
         ButtonGroup toolGroup = new ButtonGroup();
 
-        // TODO: Add different, required buttons. 
+        // TODO: Add different, required buttons.
         JToggleButton pencilBtn = new JToggleButton("Pencil", true);
         pencilBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.PENCIL));
         toolGroup.add(pencilBtn);
@@ -35,7 +45,7 @@ public class PaintApp {
         for (Color color : COLOR_PALETTE) {
             JPanel colorPanel = new JPanel();
             colorPanel.setBackground(color);
-            colorPanel.setPreferredSize(new Dimension(30, 30)); // Pencil size
+            colorPanel.setPreferredSize(new Dimension(30, 30)); // Color selector
             colorPanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
