@@ -42,6 +42,26 @@ public class PaintApp {
         toolGroup.add(pencilBtn);
         toolPanel.add(pencilBtn);
 
+        JToggleButton rectangleBtn = new JToggleButton("Rectangle", true);
+        rectangleBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.RECTANGLE));
+        toolGroup.add(rectangleBtn);
+        toolPanel.add(rectangleBtn);
+
+        JToggleButton ovalBtn = new JToggleButton("Oval", true);
+        ovalBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.OVAL));
+        toolGroup.add(ovalBtn);
+        toolPanel.add(ovalBtn);
+
+        JToggleButton arcBtn = new JToggleButton("Arc", true);
+        arcBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.ARC));
+        toolGroup.add(arcBtn);
+        toolPanel.add(arcBtn);
+
+        JToggleButton eraserBtn = new JToggleButton("Eraser", true);
+        eraserBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.ERASER));
+        toolGroup.add(eraserBtn);
+        toolPanel.add(eraserBtn);
+        
         for (Color color : COLOR_PALETTE) {
             JPanel colorPanel = new JPanel();
             colorPanel.setBackground(color);
@@ -66,7 +86,11 @@ public class PaintApp {
 
     // Todo: Will add more tools.
     enum Tool {
-        PENCIL
+        PENCIL,
+        RECTANGLE,
+        OVAL,
+        ARC,
+        ERASER
     }
 
     class ColoredShape {
