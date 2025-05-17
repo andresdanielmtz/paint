@@ -4,8 +4,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PaintApp {
+
+    // TODO: Will add more colors.
     private static final Color[] COLOR_PALETTE = {
             Color.BLACK,
             Color.DARK_GRAY,
@@ -14,7 +17,6 @@ public class PaintApp {
 
     public PaintApp() {
         JFrame frame = new JFrame("Java Paint App");
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
@@ -36,13 +38,13 @@ public class PaintApp {
             colorPanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    drawingPanel.setCurrentTool(Tool.PENCIL);
+                    drawingPanel.setCurrentColor(color);
                 }
             });
             toolPanel.add(colorPanel);
         }
 
-        frame.add(toolPanel, BorderLayout.CENTER);
+        frame.add(toolPanel, BorderLayout.NORTH);
         frame.setSize(800, 600); // Canvas size
         frame.setVisible(true);
     }
@@ -51,6 +53,7 @@ public class PaintApp {
         new PaintApp();
     }
 
+    // Todo: Will add more tools.
     enum Tool {
         PENCIL
     }
@@ -66,12 +69,11 @@ public class PaintApp {
     }
 
     class DrawingPanel extends JPanel {
-        private final ArrayList<ColoredShape> shapes = new ArrayList<>();
+        private final List<ColoredShape> shapes = new ArrayList<>();
         private ColoredShape currentShape;
-
         private Point startPoint;
-        private Tool currentTool;
-        private Color currentColor;
+        private Tool currentTool = Tool.PENCIL;
+        private Color currentColor = Color.BLACK;
 
         public DrawingPanel() {
             setBackground(Color.WHITE);
@@ -144,7 +146,7 @@ public class PaintApp {
 
             // While we are still drawing, it means there is still something within current shape,
             // therefore it will still color.
-            if (currentTool != null) {
+            if (currentShape != null) {
                 g2d.setColor(currentShape.color);
                 g2d.draw(currentShape.shape);
             }
