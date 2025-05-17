@@ -12,6 +12,41 @@ public class PaintApp {
             Color.GRAY,
     };
 
+    public PaintApp() {
+        JFrame frame = new JFrame("Java Paint App");
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+
+        DrawingPanel drawingPanel = new DrawingPanel();
+        frame.add(drawingPanel, BorderLayout.CENTER);
+
+        JPanel toolPanel = new JPanel();
+        ButtonGroup toolGroup = new ButtonGroup();
+
+        JToggleButton pencilBtn = new JToggleButton("Pencil", true);
+        pencilBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.PENCIL));
+        toolGroup.add(pencilBtn);
+        toolGroup.add(pencilBtn);
+
+        for (Color color : COLOR_PALETTE) {
+            JPanel colorPanel = new JPanel();
+            colorPanel.setBackground(color);
+            colorPanel.setPreferredSize(new Dimension(30, 30)); // Pencil size
+            colorPanel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    drawingPanel.setCurrentTool(Tool.PENCIL);
+                }
+            });
+            toolPanel.add(colorPanel);
+        }
+
+        frame.add(toolPanel, BorderLayout.CENTER);
+        frame.setSize(800, 600); // Canvas size
+        frame.setVisible(true);
+    }
+
     public static void main(String[] args) throws Exception {
         new PaintApp();
     }
@@ -81,13 +116,6 @@ public class PaintApp {
         }
 
 
-        public PaintApp() {
-            JFrame frame = new JFrame("Java Paint App");
-
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        }
-        
         // Getters & Setters
 
         public void setCurrentTool(Tool currentTool) {
