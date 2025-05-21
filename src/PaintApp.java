@@ -8,7 +8,6 @@ import java.util.List;
 
 public class PaintApp {
 
-    // TODO: Will add more colors.
     private static final Color[] COLOR_PALETTE = {
             Color.BLACK,
             Color.DARK_GRAY,
@@ -36,7 +35,6 @@ public class PaintApp {
         JPanel toolPanel = new JPanel();
         ButtonGroup toolGroup = new ButtonGroup();
 
-        // TODO: Add different, required buttons.
         JToggleButton pencilBtn = new JToggleButton("Pencil", true);
         pencilBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.PENCIL));
         toolGroup.add(pencilBtn);
@@ -61,7 +59,7 @@ public class PaintApp {
         eraserBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.ERASER));
         toolGroup.add(eraserBtn);
         toolPanel.add(eraserBtn);
-        
+
         for (Color color : COLOR_PALETTE) {
             JPanel colorPanel = new JPanel();
             colorPanel.setBackground(color);
@@ -84,7 +82,6 @@ public class PaintApp {
         new PaintApp();
     }
 
-    // Todo: Will add more tools.
     enum Tool {
         PENCIL,
         RECTANGLE,
@@ -134,6 +131,7 @@ public class PaintApp {
                 @Override
                 public void mouseDragged(MouseEvent e) {
                     switch (currentTool) {
+                        // TODO: Add new functionalities depending on the type of tool. It only supports the pencil as of now.
                         case PENCIL:
                             shapes.add(
                                     new ColoredShape(
