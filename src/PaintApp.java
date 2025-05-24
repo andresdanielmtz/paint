@@ -2,9 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * A simple Java Swing application that allows users to draw on a canvas.
+ * It provides tools for drawing shapes like lines, rectangles, and ovals.
+ * Andrés Martínez @ 2025
+ */
 
 public class PaintApp {
 
@@ -50,15 +57,18 @@ public class PaintApp {
         toolGroup.add(ovalBtn);
         toolPanel.add(ovalBtn);
 
-        JToggleButton arcBtn = new JToggleButton("Arc", true);
-        arcBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.ARC));
-        toolGroup.add(arcBtn);
-        toolPanel.add(arcBtn);
 
         JToggleButton eraserBtn = new JToggleButton("Eraser", true);
         eraserBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.ERASER));
         toolGroup.add(eraserBtn);
         toolPanel.add(eraserBtn);
+
+        JButton clearBtn = new JButton("Clear");
+        clearBtn.addActionListener(e -> {
+            drawingPanel.shapes.clear();
+            drawingPanel.repaint();
+        });
+        toolPanel.add(clearBtn);
 
         for (Color color : COLOR_PALETTE) {
             JPanel colorPanel = new JPanel();
@@ -73,6 +83,7 @@ public class PaintApp {
             toolPanel.add(colorPanel);
         }
 
+
         frame.add(toolPanel, BorderLayout.NORTH);
         frame.setSize(800, 600); // Canvas size
         frame.setVisible(true);
@@ -86,7 +97,7 @@ public class PaintApp {
         PENCIL,
         RECTANGLE,
         OVAL,
-        ARC,
+
         ERASER
     }
 
@@ -144,12 +155,35 @@ public class PaintApp {
                             );
                             startPoint = e.getPoint();
                             break;
+                        case RECTANGLE:
+                            currentShape = new ColoredShape(
+                                    new Rectangle(
+                                            Math.min(startPoint.x, e.getX()),
+                                            Math.min(startPoint.y, e.getY()),
+                                            Math.abs(startPoint.x - e.getX()),
+                                            Math.abs(startPoint.y - e.getY())
+                                    ),
+                                    currentColor
+                            );
+                            break;
+                        case OVAL:
+                            currentShape = new ColoredShape(
+                                    new Ellipse2D.Double(
+                                            Math.min(startPoint.x, e.getX()),
+                                            Math.min(startPoint.y, e.getY()),
+                                            Math.abs(startPoint.x - e.getX()),
+                                            Math.abs(startPoint.y - e.getY())
+                                    ),
+                                    currentColor
+                            );
+                            break;
+
+
                     }
                     repaint();
                 }
             });
         }
-
 
         // Getters & Setters
 
