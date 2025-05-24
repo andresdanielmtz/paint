@@ -42,6 +42,9 @@ public class PaintApp {
         JPanel toolPanel = new JPanel();
         ButtonGroup toolGroup = new ButtonGroup();
 
+        JPanel clearPanel = new JPanel();
+        ButtonGroup clearGroup = new ButtonGroup();
+
         JToggleButton pencilBtn = new JToggleButton("Pencil", true);
         pencilBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.PENCIL));
         toolGroup.add(pencilBtn);
@@ -68,7 +71,10 @@ public class PaintApp {
             drawingPanel.shapes.clear();
             drawingPanel.repaint();
         });
-        toolPanel.add(clearBtn);
+
+        clearPanel.add(clearBtn);
+        clearGroup.add(clearBtn);
+
 
         for (Color color : COLOR_PALETTE) {
             JPanel colorPanel = new JPanel();
@@ -83,8 +89,9 @@ public class PaintApp {
             toolPanel.add(colorPanel);
         }
 
-
+        frame.add(clearPanel, BorderLayout.SOUTH);
         frame.add(toolPanel, BorderLayout.NORTH);
+
         frame.setSize(800, 600); // Canvas size
         frame.setVisible(true);
     }
