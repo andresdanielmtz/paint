@@ -142,7 +142,6 @@ public class PaintApp {
                 @Override
                 public void mouseDragged(MouseEvent e) {
                     switch (currentTool) {
-                        // TODO: Add new functionalities depending on the type of tool. It only supports the pencil as of now.
                         case PENCIL:
                             shapes.add(
                                     new ColoredShape(
@@ -177,8 +176,18 @@ public class PaintApp {
                                     currentColor
                             );
                             break;
-
-
+                        case ERASER:
+                            shapes.add(
+                                    new ColoredShape(
+                                            new Line2D.Double(
+                                                    startPoint,
+                                                    e.getPoint()
+                                            ),
+                                            getBackground() // Same color as background
+                                    )
+                            );
+                            startPoint = e.getPoint();
+                            break;
                     }
                     repaint();
                 }
