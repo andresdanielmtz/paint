@@ -16,19 +16,15 @@ import javax.swing.*;
 public class PaintApp {
 
     private static final Color[] COLOR_PALETTE = {
-            Color.BLACK,
-            Color.DARK_GRAY,
-            Color.GRAY,
-            Color.GREEN,
-            Color.MAGENTA,
-            Color.PINK,
-            Color.RED,
-            Color.BLUE,
-            Color.CYAN,
-            Color.YELLOW,
-            Color.GRAY,
-            Color.MAGENTA,
-            Color.PINK
+            new Color(231, 76, 60), // Flat Red
+            new Color(46, 204, 113), // Flat Green
+            new Color(52, 152, 219), // Flat Blue
+            new Color(155, 89, 182), // Flat Purple
+            new Color(241, 196, 15), // Flat Yellow
+            new Color(230, 126, 34), // Flat Orange
+            new Color(26, 188, 156), // Flat Turquoise
+            new Color(236, 240, 241), // Flat Light Gray
+            new Color(44, 62, 80) // Flat Dark Blue
     };
 
     JPanel selectedColor;
