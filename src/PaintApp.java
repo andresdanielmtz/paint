@@ -124,7 +124,7 @@ public class PaintApp {
     }
 
     public static void main(String[] args) throws Exception {
-        new PaintApp();
+        SwingUtilities.invokeLater(() -> new PaintApp());
     }
 
     enum Tool {
