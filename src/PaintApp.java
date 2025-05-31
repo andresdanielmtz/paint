@@ -50,7 +50,7 @@ public class PaintApp {
         toolPanel.add(selectedColor); // So it shows properly. :)
 
         selectedBorderColor = new JPanel();
-        selectedBorderColor.setBackground(drawingPanel.getCurrentColor());
+        selectedBorderColor.setBackground(drawingPanel.getCurrentBorderColor());
         selectedBorderColor.setPreferredSize(new Dimension(45, 45));
         toolPanel.add(selectedBorderColor);
 
@@ -135,12 +135,15 @@ public class PaintApp {
     }
 
     class ColoredShape {
-        Shape shape;
-        Color color;
 
-        public ColoredShape(Shape shape, Color color) {
+        Shape shape;
+        Color fillColor;
+        Color borderColor;
+
+        public ColoredShape(Shape shape, Color fillColor, Color borderColor) {
             this.shape = shape;
-            this.color = color;
+            this.fillColor = fillColor;
+            this.borderColor = borderColor;
         }
     }
 
@@ -192,7 +195,7 @@ public class PaintApp {
                                             new Line2D.Double(
                                                     startPoint,
                                                     e.getPoint()),
-                                            currentColor));
+                                            currentColor, currentBorderColor));
                             startPoint = e.getPoint();
                         }
                         case RECTANGLE -> currentShape = new ColoredShape(
@@ -201,14 +204,15 @@ public class PaintApp {
                                         Math.min(startPoint.y, e.getY()),
                                         Math.abs(startPoint.x - e.getX()),
                                         Math.abs(startPoint.y - e.getY())),
-                                currentColor);
+                                currentColor, currentBorderColor);
                         case OVAL -> currentShape = new ColoredShape(
                                 new Ellipse2D.Double(
                                         Math.min(startPoint.x, e.getX()),
                                         Math.min(startPoint.y, e.getY()),
                                         Math.abs(startPoint.x - e.getX()),
                                         Math.abs(startPoint.y - e.getY())),
-                                currentColor);
+                                currentColor,
+                                currentBorderColor);
                         case ERASER -> {
                             shapes.add(
                                     new ColoredShape(
@@ -216,6 +220,7 @@ public class PaintApp {
                                                     startPoint,
                                                     e.getPoint()),
                                             getBackground() // Same color as background
+                                            , currentBorderColor
                                     ));
                             startPoint = e.getPoint();
                         }
@@ -254,20 +259,22 @@ public class PaintApp {
 
             // Draw each of the pixels with its appropriate color.
             for (ColoredShape coloredShape : shapes) {
-                g2d.setColor(coloredShape.color);
+                g2d.setColor(coloredShape.fillColor);
                 g2d.draw(coloredShape.shape);
                 g2d.fill(coloredShape.shape);
+                g2d.setColor(coloredShape.borderColor);
+                g2d.draw(coloredShape.shape);
             }
-
 
             // While we are still drawing, it means there is still something within current
             // shape,
             // therefore it will still color.
             if (currentShape != null) {
-                g2d.setColor(currentShape.color);
+                g2d.setColor(currentShape.fillColor);
                 g2d.draw(currentShape.shape);
                 g2d.fill(currentShape.shape);
-
+                g2d.setColor(currentShape.borderColor);
+                g2d.draw(currentShape.shape);
             }
         }
     }
