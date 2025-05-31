@@ -43,16 +43,16 @@ public class PaintApp {
 
         JPanel clearPanel = new JPanel();
         ButtonGroup clearGroup = new ButtonGroup();
+        selectedBorderColor = new JPanel();
+        selectedBorderColor.setBackground(drawingPanel.getCurrentBorderColor());
+        selectedBorderColor.setPreferredSize(new Dimension(45, 45));
+        toolPanel.add(selectedBorderColor);
 
         selectedColor = new JPanel();
         selectedColor.setBackground(drawingPanel.getCurrentColor());
         selectedColor.setPreferredSize(new Dimension(45, 45));
         toolPanel.add(selectedColor); // So it shows properly. :)
 
-        selectedBorderColor = new JPanel();
-        selectedBorderColor.setBackground(drawingPanel.getCurrentBorderColor());
-        selectedBorderColor.setPreferredSize(new Dimension(45, 45));
-        toolPanel.add(selectedBorderColor);
 
         JToggleButton pencilBtn = new JToggleButton("Pencil", true);
         pencilBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.PENCIL));
@@ -94,11 +94,11 @@ public class PaintApp {
                     // ?? Shouldn't early return be better in this case?
 
                     if (SwingUtilities.isLeftMouseButton(e)) {
-                        drawingPanel.setCurrentColor(color);
-                        setSelectedColor(color);
-                    } else {
                         drawingPanel.setCurrentBorderColor(color);
                         setSelectedBorderColor(color);
+                    } else {
+                        drawingPanel.setCurrentColor(color);
+                        setSelectedColor(color);
                     }
                 }
             });
