@@ -38,6 +38,13 @@ public class PaintApp {
         selectedColor.repaint();
     }
 
+    JPanel selectedFillColor;
+
+    public void setSelectedFillColor(Color color) {
+        selectedFillColor.setBackground(color);
+        selectedFillColor.repaint();
+    }
+
     public PaintApp() {
         JFrame frame = new JFrame("Java Paint App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,6 +63,11 @@ public class PaintApp {
         selectedColor.setBackground(drawingPanel.getCurrentColor());
         selectedColor.setPreferredSize(new Dimension(45, 45));
         toolPanel.add(selectedColor); // So it shows properly. :)
+
+        selectedFillColor = new JPanel();
+        selectedFillColor.setBackground(drawingPanel.getCurrentColor());
+        selectedFillColor.setPreferredSize(new Dimension(45, 45));
+        toolPanel.add(selectedFillColor);
 
         JToggleButton pencilBtn = new JToggleButton("Pencil", true);
         pencilBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.PENCIL));
@@ -99,6 +111,9 @@ public class PaintApp {
                     if (SwingUtilities.isLeftMouseButton(e)) {
                         drawingPanel.setCurrentColor(color);
                         setSelectedColor(color);
+                    } else {
+                        drawingPanel.setCurrentFillColor(color);
+                        setSelectedFillColor(color);
                     }
                 }
             });
@@ -140,6 +155,7 @@ public class PaintApp {
         private Point startPoint;
         private Tool currentTool = Tool.PENCIL;
         private Color currentColor = Color.BLACK;
+        private Color currentFillColor = Color.WHITE;
 
         public DrawingPanel() {
             setBackground(Color.WHITE);
@@ -226,6 +242,14 @@ public class PaintApp {
 
         public void setCurrentColor(Color color) {
             this.currentColor = color;
+        }
+
+        public Color getCurrentFillColor() {
+            return currentFillColor;
+        }
+
+        public void setCurrentFillColor(Color color) {
+            this.currentFillColor = color;
         }
 
         @Override
