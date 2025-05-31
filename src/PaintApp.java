@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -5,7 +6,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
 
 /**
  * A simple Java Swing application that allows users to draw on a canvas.
@@ -28,18 +28,7 @@ public class PaintApp {
     };
 
     JPanel selectedColor;
-
-    public void setSelectedColor(Color color) {
-        selectedColor.setBackground(color);
-        selectedColor.repaint();
-    }
-
-    JPanel selectedFillColor;
-
-    public void setSelectedFillColor(Color color) {
-        selectedFillColor.setBackground(color);
-        selectedFillColor.repaint();
-    }
+    JPanel selectedBorderColor;
 
     public PaintApp() {
         JFrame frame = new JFrame("Java Paint App");
@@ -60,10 +49,10 @@ public class PaintApp {
         selectedColor.setPreferredSize(new Dimension(45, 45));
         toolPanel.add(selectedColor); // So it shows properly. :)
 
-        selectedFillColor = new JPanel();
-        selectedFillColor.setBackground(drawingPanel.getCurrentColor());
-        selectedFillColor.setPreferredSize(new Dimension(45, 45));
-        toolPanel.add(selectedFillColor);
+        selectedBorderColor = new JPanel();
+        selectedBorderColor.setBackground(drawingPanel.getCurrentColor());
+        selectedBorderColor.setPreferredSize(new Dimension(45, 45));
+        toolPanel.add(selectedBorderColor);
 
         JToggleButton pencilBtn = new JToggleButton("Pencil", true);
         pencilBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.PENCIL));
@@ -108,8 +97,8 @@ public class PaintApp {
                         drawingPanel.setCurrentColor(color);
                         setSelectedColor(color);
                     } else {
-                        drawingPanel.setCurrentFillColor(color);
-                        setSelectedFillColor(color);
+                        drawingPanel.setCurrentBorderColor(color);
+                        setSelectedBorderColor(color);
                     }
                 }
             });
@@ -125,6 +114,16 @@ public class PaintApp {
 
     public static void main(String[] args) throws Exception {
         SwingUtilities.invokeLater(() -> new PaintApp());
+    }
+
+    public void setSelectedColor(Color color) {
+        selectedColor.setBackground(color);
+        selectedColor.repaint();
+    }
+
+    public void setSelectedBorderColor(Color color) {
+        selectedBorderColor.setBackground(color);
+        selectedBorderColor.repaint();
     }
 
     enum Tool {
@@ -151,7 +150,7 @@ public class PaintApp {
         private Point startPoint;
         private Tool currentTool = Tool.PENCIL;
         private Color currentColor = Color.BLACK;
-        private Color currentFillColor = Color.WHITE;
+        private Color currentBorderColor = Color.WHITE;
 
         public DrawingPanel() {
             setBackground(Color.WHITE);
@@ -217,7 +216,7 @@ public class PaintApp {
                                                     startPoint,
                                                     e.getPoint()),
                                             getBackground() // Same color as background
-                            ));
+                                    ));
                             startPoint = e.getPoint();
                         }
                     }
@@ -240,12 +239,12 @@ public class PaintApp {
             this.currentColor = color;
         }
 
-        public Color getCurrentFillColor() {
-            return currentFillColor;
+        public Color getCurrentBorderColor() {
+            return currentBorderColor;
         }
 
-        public void setCurrentFillColor(Color color) {
-            this.currentFillColor = color;
+        public void setCurrentBorderColor(Color color) {
+            this.currentBorderColor = color;
         }
 
         @Override
@@ -259,6 +258,7 @@ public class PaintApp {
                 g2d.draw(coloredShape.shape);
                 g2d.fill(coloredShape.shape);
             }
+
 
             // While we are still drawing, it means there is still something within current
             // shape,
