@@ -72,7 +72,6 @@ public class PaintApp {
         toolGroup.add(ovalBtn);
         toolPanel.add(ovalBtn);
 
-
         JToggleButton eraserBtn = new JToggleButton("Eraser", true);
         eraserBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.ERASER));
         toolGroup.add(eraserBtn);
@@ -86,7 +85,6 @@ public class PaintApp {
 
         clearPanel.add(clearBtn);
         clearGroup.add(clearBtn);
-
 
         for (Color color : COLOR_PALETTE) {
             JPanel colorPanel = new JPanel();
@@ -149,12 +147,18 @@ public class PaintApp {
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
+                    if (SwingUtilities.isRightMouseButton(e)) {
+                        return;
+                    }
                     startPoint = e.getPoint();
                     currentShape = null;
                 }
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
+                    if (SwingUtilities.isRightMouseButton(e)) {
+                        return;
+                    }
                     if (currentShape != null) {
                         shapes.add(currentShape);
                         currentShape = null;
@@ -166,47 +170,42 @@ public class PaintApp {
             addMouseMotionListener(new MouseAdapter() {
                 @Override
                 public void mouseDragged(MouseEvent e) {
+                    if (SwingUtilities.isRightMouseButton(e)) {
+                        return;
+                    }
                     switch (currentTool) {
+
                         case PENCIL -> {
                             shapes.add(
                                     new ColoredShape(
                                             new Line2D.Double(
                                                     startPoint,
-                                                    e.getPoint()
-                                            ),
-                                            currentColor
-                                    )
-                            );
+                                                    e.getPoint()),
+                                            currentColor));
                             startPoint = e.getPoint();
                         }
                         case RECTANGLE -> currentShape = new ColoredShape(
-                                    new Rectangle(
-                                            Math.min(startPoint.x, e.getX()),
-                                            Math.min(startPoint.y, e.getY()),
-                                            Math.abs(startPoint.x - e.getX()),
-                                            Math.abs(startPoint.y - e.getY())
-                                    ),
-                                    currentColor
-                            );
+                                new Rectangle(
+                                        Math.min(startPoint.x, e.getX()),
+                                        Math.min(startPoint.y, e.getY()),
+                                        Math.abs(startPoint.x - e.getX()),
+                                        Math.abs(startPoint.y - e.getY())),
+                                currentColor);
                         case OVAL -> currentShape = new ColoredShape(
-                                    new Ellipse2D.Double(
-                                            Math.min(startPoint.x, e.getX()),
-                                            Math.min(startPoint.y, e.getY()),
-                                            Math.abs(startPoint.x - e.getX()),
-                                            Math.abs(startPoint.y - e.getY())
-                                    ),
-                                    currentColor
-                            );
+                                new Ellipse2D.Double(
+                                        Math.min(startPoint.x, e.getX()),
+                                        Math.min(startPoint.y, e.getY()),
+                                        Math.abs(startPoint.x - e.getX()),
+                                        Math.abs(startPoint.y - e.getY())),
+                                currentColor);
                         case ERASER -> {
                             shapes.add(
                                     new ColoredShape(
                                             new Line2D.Double(
                                                     startPoint,
-                                                    e.getPoint()
-                                            ),
+                                                    e.getPoint()),
                                             getBackground() // Same color as background
-                                    )
-                            );
+                            ));
                             startPoint = e.getPoint();
                         }
                     }
@@ -241,8 +240,8 @@ public class PaintApp {
                 g2d.fill(coloredShape.shape);
             }
 
-
-            // While we are still drawing, it means there is still something within current shape,
+            // While we are still drawing, it means there is still something within current
+            // shape,
             // therefore it will still color.
             if (currentShape != null) {
                 g2d.setColor(currentShape.color);
