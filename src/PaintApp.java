@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -6,6 +5,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
 
 /**
  * A simple Java Swing application that allows users to draw on a canvas.
@@ -31,6 +31,13 @@ public class PaintApp {
             Color.PINK
     };
 
+    JPanel selectedColor;
+
+    public void setSelectedColor(Color color) {
+        selectedColor.setBackground(color);
+        selectedColor.repaint();
+    }
+
     public PaintApp() {
         JFrame frame = new JFrame("Java Paint App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,6 +51,11 @@ public class PaintApp {
 
         JPanel clearPanel = new JPanel();
         ButtonGroup clearGroup = new ButtonGroup();
+
+        selectedColor = new JPanel();
+        selectedColor.setBackground(drawingPanel.getCurrentColor());
+        selectedColor.setPreferredSize(new Dimension(45, 45));
+        toolPanel.add(selectedColor); // So it shows properly. :)
 
         JToggleButton pencilBtn = new JToggleButton("Pencil", true);
         pencilBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.PENCIL));
@@ -83,7 +95,13 @@ public class PaintApp {
             colorPanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    drawingPanel.setCurrentColor(color);
+                    // Will only set the current color if it gets clicked with the left mouse.
+                    // ?? Shouldn't early return be better in this case?
+
+                    if (SwingUtilities.isLeftMouseButton(e)) {
+                        drawingPanel.setCurrentColor(color);
+                        setSelectedColor(color);
+                    }
                 }
             });
             toolPanel.add(colorPanel);
@@ -224,6 +242,7 @@ public class PaintApp {
             for (ColoredShape coloredShape : shapes) {
                 g2d.setColor(coloredShape.color);
                 g2d.draw(coloredShape.shape);
+                g2d.fill(coloredShape.shape);
             }
 
 
@@ -232,6 +251,8 @@ public class PaintApp {
             if (currentShape != null) {
                 g2d.setColor(currentShape.color);
                 g2d.draw(currentShape.shape);
+                g2d.fill(currentShape.shape);
+
             }
         }
     }
