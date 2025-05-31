@@ -167,7 +167,7 @@ public class PaintApp {
                 @Override
                 public void mouseDragged(MouseEvent e) {
                     switch (currentTool) {
-                        case PENCIL:
+                        case PENCIL -> {
                             shapes.add(
                                     new ColoredShape(
                                             new Line2D.Double(
@@ -178,9 +178,8 @@ public class PaintApp {
                                     )
                             );
                             startPoint = e.getPoint();
-                            break;
-                        case RECTANGLE:
-                            currentShape = new ColoredShape(
+                        }
+                        case RECTANGLE -> currentShape = new ColoredShape(
                                     new Rectangle(
                                             Math.min(startPoint.x, e.getX()),
                                             Math.min(startPoint.y, e.getY()),
@@ -189,9 +188,7 @@ public class PaintApp {
                                     ),
                                     currentColor
                             );
-                            break;
-                        case OVAL:
-                            currentShape = new ColoredShape(
+                        case OVAL -> currentShape = new ColoredShape(
                                     new Ellipse2D.Double(
                                             Math.min(startPoint.x, e.getX()),
                                             Math.min(startPoint.y, e.getY()),
@@ -200,8 +197,7 @@ public class PaintApp {
                                     ),
                                     currentColor
                             );
-                            break;
-                        case ERASER:
+                        case ERASER -> {
                             shapes.add(
                                     new ColoredShape(
                                             new Line2D.Double(
@@ -212,7 +208,7 @@ public class PaintApp {
                                     )
                             );
                             startPoint = e.getPoint();
-                            break;
+                        }
                     }
                     repaint();
                 }
