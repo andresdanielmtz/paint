@@ -41,6 +41,7 @@ public class PaintApp {
         JPanel toolPanel = new JPanel();
         ButtonGroup toolGroup = new ButtonGroup();
 
+
         JPanel clearPanel = new JPanel();
         ButtonGroup clearGroup = new ButtonGroup();
         selectedBorderColor = new JPanel();
@@ -87,7 +88,10 @@ public class PaintApp {
         toolGroup.add(eraserBtn);
         toolPanel.add(eraserBtn);
 
+        ImageIcon clearIcon = new ImageIcon("icons/clear.png");
+        clearIcon = new ImageIcon(clearIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         JButton clearBtn = new JButton("Clear");
+        clearBtn.setIcon(clearIcon);
         clearBtn.addActionListener(e -> {
             drawingPanel.shapes.clear();
             drawingPanel.repaint();
@@ -251,13 +255,15 @@ public class PaintApp {
                                 currentColor,
                                 currentBorderColor, strokeWidth);
                         case ERASER -> {
+                            Color bg = getBackground();
                             shapes.add(
                                     new ColoredShape(
                                             new Line2D.Double(
                                                     startPoint,
                                                     e.getPoint()),
-                                            getBackground() // Same color as background
-                                            , currentBorderColor, strokeWidth
+                                            bg,
+                                            bg,
+                                            strokeWidth
                                     ));
                             startPoint = e.getPoint();
                         }
