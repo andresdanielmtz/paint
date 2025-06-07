@@ -57,26 +57,33 @@ public class PaintApp {
         // TODO: Add icons for the tools.
         ImageIcon pencilIcon = new ImageIcon("icons/pencil.png");
         pencilIcon = new ImageIcon(pencilIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
-
-
         JToggleButton pencilBtn = new JToggleButton("Pencil", true);
         pencilBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.PENCIL));
-        pencilBtn.setIcon(pencilIcon); //: )
+        pencilBtn.setIcon(pencilIcon);
         toolGroup.add(pencilBtn);
         toolPanel.add(pencilBtn);
 
+        ImageIcon rectangleIcon = new ImageIcon("icons/rectangle.png");
+        rectangleIcon = new ImageIcon(rectangleIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         JToggleButton rectangleBtn = new JToggleButton("Rectangle", true);
         rectangleBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.RECTANGLE));
+        rectangleBtn.setIcon(rectangleIcon);
         toolGroup.add(rectangleBtn);
         toolPanel.add(rectangleBtn);
 
+        ImageIcon ovalIcon = new ImageIcon("icons/oval.png");
+        ovalIcon = new ImageIcon(ovalIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         JToggleButton ovalBtn = new JToggleButton("Oval", true);
         ovalBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.OVAL));
+        ovalBtn.setIcon(ovalIcon);
         toolGroup.add(ovalBtn);
         toolPanel.add(ovalBtn);
 
+        ImageIcon eraserIcon = new ImageIcon("icons/eraser.png");
+        eraserIcon = new ImageIcon(eraserIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         JToggleButton eraserBtn = new JToggleButton("Eraser", true);
         eraserBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.ERASER));
+        eraserBtn.setIcon(eraserIcon);
         toolGroup.add(eraserBtn);
         toolPanel.add(eraserBtn);
 
