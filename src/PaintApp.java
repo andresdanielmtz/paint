@@ -109,6 +109,7 @@ public class PaintApp {
                 e -> {
                     strokeLabel.setText("Stroke: " + strokeSlider.getValue());
                     // TODO: Implement set stroke of the shape
+                    drawingPanel.setStrokeWidth(strokeSlider.getValue());
                 }
         );
 
@@ -170,11 +171,13 @@ public class PaintApp {
         Shape shape;
         Color fillColor;
         Color borderColor;
+        float strokeWidth;
 
-        public ColoredShape(Shape shape, Color fillColor, Color borderColor) {
+        public ColoredShape(Shape shape, Color fillColor, Color borderColor, float strokeWidth) {
             this.shape = shape;
             this.fillColor = fillColor;
             this.borderColor = borderColor;
+            this.strokeWidth = strokeWidth;
         }
     }
 
@@ -185,6 +188,8 @@ public class PaintApp {
         private Tool currentTool = Tool.PENCIL;
         private Color currentColor = Color.BLACK;
         private Color currentBorderColor = Color.WHITE;
+        private float strokeWidth = 1.0f;
+
 
         public DrawingPanel() {
             setBackground(Color.WHITE);
@@ -226,7 +231,8 @@ public class PaintApp {
                                             new Line2D.Double(
                                                     startPoint,
                                                     e.getPoint()),
-                                            currentColor, currentBorderColor));
+                                            currentColor, currentBorderColor
+                                            , strokeWidth));
                             startPoint = e.getPoint();
                         }
                         case RECTANGLE -> currentShape = new ColoredShape(
@@ -235,7 +241,7 @@ public class PaintApp {
                                         Math.min(startPoint.y, e.getY()),
                                         Math.abs(startPoint.x - e.getX()),
                                         Math.abs(startPoint.y - e.getY())),
-                                currentColor, currentBorderColor);
+                                currentColor, currentBorderColor, strokeWidth);
                         case OVAL -> currentShape = new ColoredShape(
                                 new Ellipse2D.Double(
                                         Math.min(startPoint.x, e.getX()),
@@ -243,7 +249,7 @@ public class PaintApp {
                                         Math.abs(startPoint.x - e.getX()),
                                         Math.abs(startPoint.y - e.getY())),
                                 currentColor,
-                                currentBorderColor);
+                                currentBorderColor, strokeWidth);
                         case ERASER -> {
                             shapes.add(
                                     new ColoredShape(
@@ -251,7 +257,7 @@ public class PaintApp {
                                                     startPoint,
                                                     e.getPoint()),
                                             getBackground() // Same color as background
-                                            , currentBorderColor
+                                            , currentBorderColor, strokeWidth
                                     ));
                             startPoint = e.getPoint();
                         }
@@ -262,6 +268,10 @@ public class PaintApp {
         }
 
         // Getters & Setters
+
+        public void setStrokeWidth(float strokeWidth) {
+            this.strokeWidth = strokeWidth;
+        }
 
         public void setCurrentTool(Tool currentTool) {
             this.currentTool = currentTool;
@@ -290,6 +300,7 @@ public class PaintApp {
 
             // Draw each of the pixels with its appropriate color.
             for (ColoredShape coloredShape : shapes) {
+                g2d.setStroke(new BasicStroke(coloredShape.strokeWidth));
                 g2d.setColor(coloredShape.fillColor);
                 g2d.draw(coloredShape.shape);
                 g2d.fill(coloredShape.shape);
