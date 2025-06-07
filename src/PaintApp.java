@@ -53,9 +53,13 @@ public class PaintApp {
         selectedColor.setPreferredSize(new Dimension(45, 45));
         toolPanel.add(selectedColor); // So it shows properly. :)
 
+        ImageIcon pencilIcon = new ImageIcon("icons/pencil.png");
+        pencilIcon = new ImageIcon(pencilIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+
 
         JToggleButton pencilBtn = new JToggleButton("Pencil", true);
         pencilBtn.addActionListener(e -> drawingPanel.setCurrentTool(Tool.PENCIL));
+        pencilBtn.setIcon(pencilIcon); //: )
         toolGroup.add(pencilBtn);
         toolPanel.add(pencilBtn);
 
