@@ -53,6 +53,8 @@ public class PaintApp {
         selectedColor.setPreferredSize(new Dimension(45, 45));
         toolPanel.add(selectedColor); // So it shows properly. :)
 
+
+        // TODO: Add icons for the tools.
         ImageIcon pencilIcon = new ImageIcon("icons/pencil.png");
         pencilIcon = new ImageIcon(pencilIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
 
@@ -86,6 +88,25 @@ public class PaintApp {
 
         clearPanel.add(clearBtn);
         clearGroup.add(clearBtn);
+
+        // Add a slider for stroke width
+        JLabel strokeLabel = new JLabel("Stroke: 1");
+        JSlider strokeSlider = new JSlider(1, 30, 1);
+        strokeSlider.setPaintTrack(true);
+        strokeSlider.setPaintTicks(true);
+        strokeSlider.setPaintLabels(true);
+        strokeSlider.setMinorTickSpacing(10);
+        strokeSlider.setMajorTickSpacing(5);
+        strokeSlider.addChangeListener(
+                // Lambda expression to handle slider changes
+                e -> {
+                    strokeLabel.setText("Stroke: " + strokeSlider.getValue());
+                    // TODO: Implement set stroke of the shape
+                }
+        );
+
+        toolPanel.add(strokeSlider);
+        toolPanel.add(strokeLabel);
 
         for (Color color : COLOR_PALETTE) {
             JPanel colorPanel = new JPanel();
@@ -134,7 +155,6 @@ public class PaintApp {
         PENCIL,
         RECTANGLE,
         OVAL,
-
         ERASER
     }
 
